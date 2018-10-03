@@ -1,9 +1,8 @@
 package net.shagie.sb.jpa.model;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.util.EnumMap;
+import java.util.Map;
 
 @Entity
 public class Customer {
@@ -14,18 +13,33 @@ public class Customer {
     private String firstName;
     private String lastName;
 
-    protected Customer() {}
+    @ElementCollection
+    @ManyToMany(fetch = FetchType.EAGER)
+    @MapKeyEnumerated(EnumType.STRING)
+    private Map<AddressType, Address> addresses;
+
+    protected Customer() {
+        addresses = new EnumMap<AddressType, Address>(AddressType.class);
+    }
 
     public Customer(String firstName, String lastName) {
         this.firstName = firstName;
         this.lastName = lastName;
+        addresses = new EnumMap<AddressType, Address>(AddressType.class);
     }
 
-    @Override
-    public String toString() {
-        return String.format(
-                "Customer[id=%d, firstName='%s', lastName='%s']",
-                id, firstName, lastName);
+    public Customer(String firstName, String lastName, Map<AddressType, Address> addresses) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.addresses = addresses;
+    }
+
+    public Map<AddressType, Address> getAddresses() {
+        return addresses;
+    }
+
+    public void setAddresses(Map<AddressType, Address> addresses) {
+        this.addresses = addresses;
     }
 
     public Long getId() {
@@ -50,5 +64,15 @@ public class Customer {
 
     public void setLastName(String lastName) {
         this.lastName = lastName;
+    }
+
+    @Override
+    public String toString() {
+        return "Customer{" +
+                "id=" + id +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", addresses=" + addresses +
+                '}';
     }
 }
