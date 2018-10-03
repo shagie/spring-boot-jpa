@@ -19,13 +19,13 @@ public class Customer {
     private Map<AddressType, Address> addresses;
 
     public Customer() {
-        addresses = new EnumMap<AddressType, Address>(AddressType.class);
+        addresses = new EnumMap<>(AddressType.class);
     }
 
     public Customer(String firstName, String lastName) {
         this.firstName = firstName;
         this.lastName = lastName;
-        addresses = new EnumMap<AddressType, Address>(AddressType.class);
+        addresses = new EnumMap<>(AddressType.class);
     }
 
     public Customer(String firstName, String lastName, Map<AddressType, Address> addresses) {
