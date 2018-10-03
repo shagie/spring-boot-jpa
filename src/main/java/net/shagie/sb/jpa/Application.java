@@ -2,6 +2,7 @@ package net.shagie.sb.jpa;
 
 import net.shagie.sb.jpa.dao.AddressRepository;
 import net.shagie.sb.jpa.dao.CustomerRepository;
+import net.shagie.sb.jpa.dao.SearchService;
 import net.shagie.sb.jpa.model.Address;
 import net.shagie.sb.jpa.model.AddressType;
 import net.shagie.sb.jpa.model.Customer;
@@ -26,7 +27,7 @@ public class Application {
     }
 
     @Bean
-    public CommandLineRunner demo(CustomerRepository custRepo, AddressRepository addrRepo) {
+    public CommandLineRunner demo(CustomerRepository custRepo, AddressRepository addrRepo, SearchService search) {
         return (args) -> {
             // save a couple of customers
             Address work = new Address("100 Main", "Therevill", State.WASHINGTON, "12345");
@@ -66,12 +67,13 @@ public class Application {
             // fetch customers by last name
             log.info("Customer found with findByLastName('Bauer'):");
             log.info("--------------------------------------------");
-            custRepo.findByLastName("Bauer").forEach(bauer -> {
-                log.info(bauer.toString());
-            });
-            // for (Customer bauer : repository.findByLastName("Bauer")) {
-            // 	log.info(bauer.toString());
-            // }
+            custRepo.findByLastName("Bauer").forEach(bauer -> log.info(bauer.toString()));
+            log.info("");
+
+            log.info("Customer found with query by example - last name ('smith'):");
+            Customer example = new Customer();
+            example.setLastName("Smith");
+            search.findCustomer(example).forEach(smith -> log.info(smith.toString()));
             log.info("");
         };
     }

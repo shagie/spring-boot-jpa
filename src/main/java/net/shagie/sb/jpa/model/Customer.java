@@ -18,7 +18,7 @@ public class Customer {
     @MapKeyEnumerated(EnumType.STRING)
     private Map<AddressType, Address> addresses;
 
-    protected Customer() {
+    public Customer() {
         addresses = new EnumMap<AddressType, Address>(AddressType.class);
     }
 
