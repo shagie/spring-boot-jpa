@@ -9,8 +9,12 @@ import java.util.List;
 
 @Component
 public class SearchService {
+    private final CustomerRepository custRepo;
+
     @Autowired
-    CustomerRepository custRepo;
+    public SearchService(CustomerRepository custRepo) {
+        this.custRepo = custRepo;
+    }
 
     public List<Customer> findCustomer(Customer cust) {
         Example<Customer> example = Example.of(cust);
