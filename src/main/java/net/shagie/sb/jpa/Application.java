@@ -14,6 +14,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
+import java.util.Date;
 import java.util.EnumMap;
 import java.util.Map;
 
@@ -27,7 +28,7 @@ public class Application {
     }
 
     @Bean
-    public CommandLineRunner demo(CustomerRepository custRepo, AddressRepository addrRepo, SearchService search) {
+    public CommandLineRunner cmdline(CustomerRepository custRepo, AddressRepository addrRepo, SearchService search) {
         return (args) -> {
             // save a couple of customers
             Address work = new Address("100 Main", "Therevill", State.WASHINGTON, "12345");
@@ -39,13 +40,13 @@ public class Application {
             map.put(AddressType.COMMERICAL, work);
             map.put(AddressType.RESIDENTIAL, res);
 
-            custRepo.save(new Customer("Jack", "Bauer", map));
-            custRepo.save(new Customer("Chloe", "O'Brian"));
-            custRepo.save(new Customer("Kim", "Bauer"));
-            custRepo.save(new Customer("David", "Palmer"));
-            custRepo.save(new Customer("Michelle", "Dessler"));
-            custRepo.save(new Customer("Kim", "Smith"));
-            custRepo.save(new Customer("David", "Smith"));
+            custRepo.save(new Customer("Jack", "Bauer", new Date(0), map));
+            custRepo.save(new Customer("Chloe", "O'Brian", new Date(946684800000L)));
+            custRepo.save(new Customer("Kim", "Bauer", new Date(315532800000L)));
+            custRepo.save(new Customer("David", "Palmer", new Date(339984000000L)));
+            custRepo.save(new Customer("Michelle", "Dessler", new Date(339984000000L)));
+            custRepo.save(new Customer("Kim", "Smith", new Date(315532800000L)));
+            custRepo.save(new Customer("David", "Smith", new Date(0)));
 
             // fetch all customers
             log.info("Customers found with findAll():");
