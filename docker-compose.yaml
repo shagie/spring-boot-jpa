@@ -11,3 +11,8 @@ services:
       POSTGRES_USER: postgres
     ports:
       - 5432:5432
+  sba:
+    build: SpringBootApp
+    restart: always
+    ports:
+      - 8080:8080
